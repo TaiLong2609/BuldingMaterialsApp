@@ -153,8 +153,8 @@ class _LoginPageState extends State<LoginPage> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                theme.colorScheme.primary.withOpacity(0.65),
-                theme.colorScheme.tertiary.withOpacity(0.25),
+                theme.colorScheme.primary.withValues(alpha: 0.65),
+                theme.colorScheme.tertiary.withValues(alpha: 0.25),
               ],
             ),
           ),
@@ -183,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
               Text(
                 'Đăng nhập để tiếp tục.',
                 style: theme.textTheme.bodyLarge?.copyWith(
-                  color: theme.colorScheme.onPrimary.withOpacity(0.9),
+                  color: theme.colorScheme.onPrimary.withValues(alpha: 0.9),
                 ),
               ),
             ],
