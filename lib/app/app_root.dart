@@ -5,9 +5,13 @@ import 'package:app_quanlyxaydung/screens/system_admin/admin_home_page.dart';
 import 'package:app_quanlyxaydung/screens/system_admin/admin_profile.dart';
 import 'package:app_quanlyxaydung/screens/system_admin/admin_user_management.dart';
 import 'package:app_quanlyxaydung/screens/system_admin/admin_user_permissions.dart';
-import 'package:app_quanlyxaydung/screens/login_page.dart';
+import 'package:app_quanlyxaydung/screens/system user/login_page.dart';
 import 'package:app_quanlyxaydung/services/auth_service.dart';
+import 'package:app_quanlyxaydung/services/cart_service.dart';
+import 'package:app_quanlyxaydung/widgets/app_bottom_nav.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class AppRoot extends StatefulWidget {
   const AppRoot({super.key, required this.authService});
@@ -20,37 +24,29 @@ class AppRoot extends StatefulWidget {
 
 class _AppRootState extends State<AppRoot> {
   UserSession? _session;
-  String _currentPage = 'Trang chủ';
 
   void _onLoggedIn(UserSession session) {
     setState(() {
       _session = session;
-      _currentPage = 'Trang chủ';
     });
-  }
-
-  void _onMenuSelected(String menuItem) {
-    if (menuItem == 'Đăng xuất') {
-      _logout();
-    } else {
-      setState(() {
-        _currentPage = menuItem;
-      });
-    }
   }
 
   void _logout() {
     setState(() {
       _session = null;
-      _currentPage = 'Trang chủ';
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+    );
+
     return MaterialApp(
       title: 'VLXD',
-      theme: AppTheme.theme,
+      theme: theme,
       home: _session == null
           ? LoginPage(authService: widget.authService, onLoggedIn: _onLoggedIn)
           : _buildMainPage(),
