@@ -68,20 +68,7 @@ class _AdminBackupRestorePageState extends State<AdminBackupRestorePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header
-            Text(
-              'Sao lưu và khôi phục dữ liệu',
-              style: theme.textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.primary,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Đảm bảo an toàn dữ liệu của hệ thống bằng cách tạo bản sao lưu định kỳ và khôi phục khi cần thiết.',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
+           
 
             const SizedBox(height: 24),
 
@@ -103,12 +90,24 @@ class _AdminBackupRestorePageState extends State<AdminBackupRestorePage> {
                     Row(
                       children: [
                         Expanded(
-                          child: ElevatedButton.icon(
-                            onPressed: _isLoading ? null : () => _createBackup('Full'),
-                            icon: const Icon(Icons.backup),
-                            label: const Text('Sao lưu đầy đủ'),
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              gradient: LinearGradient(
+                                colors: [theme.colorScheme.primary, theme.colorScheme.primaryContainer],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                            ),
+                            child: ElevatedButton.icon(
+                              onPressed: _isLoading ? null : () => _createBackup('Full'),
+                              icon: const Icon(Icons.backup),
+                              label: const Text('Sao lưu đầy đủ', style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                padding: const EdgeInsets.symmetric(vertical: 12),
+                              ),
                             ),
                           ),
                         ),
@@ -326,16 +325,17 @@ class _AdminBackupRestorePageState extends State<AdminBackupRestorePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
                     color: trangThai == 'Thành công'
-                        ? Colors.green.withValues(alpha: 0.1)
-                        : Colors.red.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
+                        ? const Color(0xFFD4E3FF) // primary_fixed
+                        : theme.colorScheme.errorContainer,
+                    borderRadius: BorderRadius.circular(4), // Squircle
                   ),
                   child: Text(
-                    trangThai,
+                    trangThai.toUpperCase(),
                     style: TextStyle(
-                      color: trangThai == 'Thành công' ? Colors.green : Colors.red,
-                      fontSize: 12,
+                      color: trangThai == 'Thành công' ? const Color(0xFF001C3A) : theme.colorScheme.onErrorContainer,
+                      fontSize: 11,
                       fontWeight: FontWeight.bold,
+                      letterSpacing: 1.05,
                     ),
                   ),
                 ),
@@ -343,19 +343,16 @@ class _AdminBackupRestorePageState extends State<AdminBackupRestorePage> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: loaiSaoLuu == 'Full'
-                        ? theme.colorScheme.primary.withValues(alpha: 0.1)
-                        : theme.colorScheme.secondary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
+                    color: theme.colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    loaiSaoLuu,
+                    loaiSaoLuu.toUpperCase(),
                     style: TextStyle(
-                      color: loaiSaoLuu == 'Full'
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.secondary,
-                      fontSize: 12,
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontSize: 11,
                       fontWeight: FontWeight.bold,
+                      letterSpacing: 1.05,
                     ),
                   ),
                 ),

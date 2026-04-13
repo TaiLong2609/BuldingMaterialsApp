@@ -138,12 +138,24 @@ class _AdminUserManagementPageState extends State<AdminUserManagementPage> {
           // Add User Button
           Container(
             padding: const EdgeInsets.all(16),
-            child: ElevatedButton.icon(
-              onPressed: _showAddUserDialog,
-              icon: const Icon(Icons.add),
-              label: const Text('Thêm người dùng mới'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 48),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                gradient: LinearGradient(
+                  colors: [theme.colorScheme.primary, theme.colorScheme.primaryContainer],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: ElevatedButton.icon(
+                onPressed: _showAddUserDialog,
+                icon: const Icon(Icons.add),
+                label: const Text('Thêm người dùng mới', style: TextStyle(fontWeight: FontWeight.bold)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  minimumSize: const Size(double.infinity, 56),
+                ),
               ),
             ),
           ),
@@ -179,13 +191,19 @@ class _AdminUserManagementPageState extends State<AdminUserManagementPage> {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: theme.colorScheme.primary,
+        leading: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primary,
+            borderRadius: BorderRadius.circular(12), // Squircle shape
+          ),
+          alignment: Alignment.center,
           child: Text(
             user['username'].toString().isEmpty
                 ? '?'
                 : user['username'].toString().characters.first.toUpperCase(),
-            style: TextStyle(color: theme.colorScheme.onPrimary),
+            style: TextStyle(color: theme.colorScheme.onPrimary, fontWeight: FontWeight.bold),
           ),
         ),
         title: Text(user['username']),
@@ -215,16 +233,17 @@ class _AdminUserManagementPageState extends State<AdminUserManagementPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
                     color: status == 'active'
-                        ? Colors.green.withValues(alpha: 0.1)
-                        : Colors.red.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
+                        ? const Color(0xFFD4E3FF) // primary_fixed
+                        : theme.colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(4), // Squircle badge
                   ),
                   child: Text(
-                    status == 'active' ? 'Hoạt động' : 'Không hoạt động',
+                    status == 'active' ? 'HOẠT ĐỘNG' : 'KHÔNG HOẠT ĐỘNG',
                     style: TextStyle(
-                      color: status == 'active' ? Colors.green : Colors.red,
-                      fontSize: 12,
+                      color: status == 'active' ? const Color(0xFF001C3A) : theme.colorScheme.onSurfaceVariant,
+                      fontSize: 11,
                       fontWeight: FontWeight.bold,
+                      letterSpacing: 1.05,
                     ),
                   ),
                 ),

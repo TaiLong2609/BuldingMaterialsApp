@@ -25,41 +25,43 @@ class AdminHomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Chào mừng đến với hệ thống quản lý VLXD',
-              style: theme.textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.primary,
-              ),
-            ),
+            
             const SizedBox(height: 24),
-            _buildStatCard(
-              context,
-              'Tổng số người dùng',
-              '1,234',
-              Icons.people,
-              theme.colorScheme.primary,
+            Row(
+              children: [
+                Expanded(
+                  child: _buildStatCard(
+                    context,
+                    'Tổng người dùng',
+                    '1,234',
+                    Icons.people,
+                    theme.colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: _buildStatCard(
+                    context,
+                    'Tổng số vai trò',
+                    '08',
+                    Icons.admin_panel_settings,
+                    theme.colorScheme.secondary,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             _buildStatCard(
               context,
-              'Đơn hàng hôm nay',
-              '56',
-              Icons.shopping_cart,
-              theme.colorScheme.secondary,
-            ),
-            const SizedBox(height: 16),
-            _buildStatCard(
-              context,
-              'Doanh thu tháng này',
-              '45.6M VND',
-              Icons.attach_money,
+              'Tổng số quyền',
+              '24',
+              Icons.shield,
               theme.colorScheme.tertiary,
             ),
             const SizedBox(height: 24),
             Text(
               'Hoạt động gần đây',
-              style: theme.textTheme.titleLarge?.copyWith(
+              style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -67,21 +69,22 @@ class AdminHomePage extends StatelessWidget {
             _buildActivityItem(
               context,
               'Người dùng mới đăng ký',
-              'Nguyễn Văn A - 10 phút trước',
+              'Nhà thầu "Hanson Dev" đã tham gia công trường 04\n2 phút trước',
               Icons.person_add,
             ),
+            
             _buildActivityItem(
               context,
-              'Đơn hàng mới',
-              'ĐH00123 - 25 phút trước',
-              Icons.receipt,
+              'Vai trò mới được tạo',
+              'Vai trò "Quản lý kho" đã được tạo\n10 phút trước',
+              Icons.admin_panel_settings,
             ),
-            _buildActivityItem(
-              context,
-              'Cập nhật vật liệu',
-              'Xi măng PCB30 - 1 giờ trước',
-              Icons.inventory,
-            ),
+              _buildActivityItem(
+                context,
+                'Quyền mới được gán',
+                'Vai trò "Quản lý kho" đã được gán quyền "Xem tồn kho"\n30 phút trước',
+                Icons.shield,
+              ),
           ],
         ),
       ),

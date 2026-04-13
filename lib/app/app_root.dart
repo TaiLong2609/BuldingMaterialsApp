@@ -1,9 +1,10 @@
+import 'package:app_quanlyxaydung/app/theme.dart';
 import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/screens/systeam%20admin/admin_backup_restore.dart';
-import 'package:app_quanlyxaydung/screens/systeam%20admin/admin_home_page.dart';
-import 'package:app_quanlyxaydung/screens/systeam%20admin/admin_profile.dart';
-import 'package:app_quanlyxaydung/screens/systeam%20admin/admin_user_management.dart';
-import 'package:app_quanlyxaydung/screens/systeam%20admin/admin_user_permissions.dart';
+import 'package:app_quanlyxaydung/screens/system_admin/admin_backup_restore.dart';
+import 'package:app_quanlyxaydung/screens/system_admin/admin_home_page.dart';
+import 'package:app_quanlyxaydung/screens/system_admin/admin_profile.dart';
+import 'package:app_quanlyxaydung/screens/system_admin/admin_user_management.dart';
+import 'package:app_quanlyxaydung/screens/system_admin/admin_user_permissions.dart';
 import 'package:app_quanlyxaydung/screens/login_page.dart';
 import 'package:app_quanlyxaydung/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -47,14 +48,9 @@ class _AppRootState extends State<AppRoot> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ThemeData(
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-    );
-
     return MaterialApp(
       title: 'VLXD',
-      theme: theme,
+      theme: AppTheme.theme,
       home: _session == null
           ? LoginPage(authService: widget.authService, onLoggedIn: _onLoggedIn)
           : _buildMainPage(),

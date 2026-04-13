@@ -154,17 +154,19 @@ class _AdminUserPermissionsPageState extends State<AdminUserPermissionsPage> {
           children: [
             // Tab Bar
             Container(
-              color: theme.colorScheme.surface,
-              child: const TabBar(
-                tabs: [
+              color: theme.colorScheme.surfaceContainerLow,
+              child: TabBar(
+                tabs: const [
                   Tab(text: 'Người dùng', icon: Icon(Icons.people)),
                   Tab(text: 'Vai trò', icon: Icon(Icons.group)),
                   Tab(text: 'Quyền hạn', icon: Icon(Icons.security)),
                   Tab(text: 'Nhật ký', icon: Icon(Icons.history)),
                 ],
-                indicatorColor: Colors.blue,
-                labelColor: Colors.blue,
-                unselectedLabelColor: Colors.grey,
+                indicatorColor: theme.colorScheme.primary,
+                labelColor: theme.colorScheme.primary,
+                unselectedLabelColor: theme.colorScheme.onSurfaceVariant,
+                indicatorWeight: 4,
+                indicatorSize: TabBarIndicatorSize.tab,
               ),
             ),
 
@@ -269,13 +271,19 @@ class _AdminUserPermissionsPageState extends State<AdminUserPermissionsPage> {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ExpansionTile(
-        leading: CircleAvatar(
-          backgroundColor: theme.colorScheme.primary,
+        leading: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primary,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          alignment: Alignment.center,
           child: Text(
             user['TenDangNhap'].toString().isEmpty
                 ? '?'
                 : user['TenDangNhap'].toString().characters.first.toUpperCase(),
-            style: TextStyle(color: theme.colorScheme.onPrimary),
+            style: TextStyle(color: theme.colorScheme.onPrimary, fontWeight: FontWeight.bold),
           ),
         ),
         title: Text(user['HoTen']),
@@ -401,9 +409,23 @@ class _AdminUserPermissionsPageState extends State<AdminUserPermissionsPage> {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: ElevatedButton(
-                        onPressed: () => _saveUserPermissions(user),
-                        child: const Text('Lưu thay đổi'),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          gradient: LinearGradient(
+                            colors: [theme.colorScheme.primary, theme.colorScheme.primaryContainer],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () => _saveUserPermissions(user),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                          ),
+                          child: const Text('Lưu thay đổi', style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
                       ),
                     ),
                   ],
