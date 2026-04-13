@@ -1,4 +1,5 @@
 # Seed accounts for demo (username|password|role)
-# Roles: ADMIN, MANAGER
+# Roles: ADMIN, MANAGER, CUSTOMER
 admin|admin123|ADMIN
 quanly|ql123|MANAGER
+user|user123|CUSTOMER

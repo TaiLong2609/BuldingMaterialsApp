@@ -100,6 +100,7 @@ class AuthService {
       final role = switch (roleRaw) {
         'ADMIN' => UserRole.admin,
         'MANAGER' => UserRole.manager,
+        'CUSTOMER' => UserRole.customer,
         _ => null,
       };
 

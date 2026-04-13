@@ -70,7 +70,6 @@ class AppScaffold extends StatelessWidget {
         'Quản lý tài khoản',
         'Phân quyền người dùng',
         'Hồ sơ cá nhân',
-        'Back up và Restore dữ liệu',
         'Đăng xuất',
       ],
       UserRole.manager => const [
