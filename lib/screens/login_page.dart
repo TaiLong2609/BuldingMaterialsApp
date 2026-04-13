@@ -1,6 +1,8 @@
 import 'package:app_quanlyxaydung/models/user_session.dart';
+import 'package:app_quanlyxaydung/screens/register_page.dart';
 import 'package:app_quanlyxaydung/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
@@ -21,7 +23,6 @@ class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool _isRegister = false;
   bool _isSubmitting = false;
 
   @override
@@ -46,29 +47,6 @@ class _LoginPageState extends State<LoginPage> {
       final username = _usernameController.text.trim();
       final password = _passwordController.text;
 
-      if (_isRegister) {
-        final error = await widget.authService.registerCustomer(
-          phone: username,
-          password: password,
-        );
-        if (!mounted) return;
-
-        if (error != null) {
-          messenger.showSnackBar(SnackBar(content: Text(error)));
-          return;
-        }
-
-        messenger.showSnackBar(
-          const SnackBar(
-            content: Text('Đăng ký thành công. Bạn có thể đăng nhập.'),
-          ),
-        );
-        setState(() {
-          _isRegister = false;
-        });
-        return;
-      }
-
       final session = await widget.authService.login(
         username: username,
         password: password,
@@ -92,11 +70,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _toggleMode() {
-    setState(() {
-      _isRegister = !_isRegister;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,8 +126,8 @@ class _LoginPageState extends State<LoginPage> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                theme.colorScheme.primary.withValues(alpha: 0.65),
-                theme.colorScheme.tertiary.withValues(alpha: 0.25),
+                theme.colorScheme.primary.withOpacity(0.65),
+                theme.colorScheme.tertiary.withOpacity(0.25),
               ],
             ),
           ),
@@ -183,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
               Text(
                 'Đăng nhập để tiếp tục.',
                 style: theme.textTheme.bodyLarge?.copyWith(
-                  color: theme.colorScheme.onPrimary.withValues(alpha: 0.9),
+                  color: theme.colorScheme.onPrimary.withOpacity(0.9),
                 ),
               ),
             ],
@@ -196,8 +169,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildRightPanel(BuildContext context) {
     final theme = Theme.of(context);
 
-    final title = _isRegister ? 'Tạo tài khoản mới' : 'Đăng nhập';
-    final hintUser = _isRegister ? 'Số điện thoại' : 'Email hoặc số di động';
+    final title = 'Đăng nhập';
+    final hintUser = 'Email hoặc số di động';
 
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -223,9 +196,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _usernameController,
-                      keyboardType: _isRegister
-                          ? TextInputType.phone
-                          : TextInputType.text,
+                      keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         labelText: hintUser,
                         border: const OutlineInputBorder(),
@@ -255,24 +226,31 @@ class _LoginPageState extends State<LoginPage> {
                       height: 44,
                       child: FilledButton(
                         onPressed: _isSubmitting ? null : _submit,
-                        child: Text(_isRegister ? 'Đăng ký' : 'Đăng nhập'),
+                        child: const Text('Đăng nhập'),
                       ),
                     ),
                     const SizedBox(height: 12),
-                    TextButton(
-                      onPressed: _isSubmitting ? null : _toggleMode,
-                      child: Text(
-                        _isRegister
-                            ? 'Quay lại đăng nhập'
-                            : 'Tạo tài khoản mới',
-                      ),
+                    OutlinedButton(
+                      onPressed: _isSubmitting
+                          ? null
+                          : () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => RegisterPage(
+                                    authService: widget.authService,
+                                  ),
+                                ),
+                              ),
+                      child: const Text('Tạo tài khoản mới'),
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Tài khoản demo:\n- Admin: admin / admin123\n- Quản lý: quanly / ql123',
-                      style: theme.textTheme.bodySmall?.copyWith(
+                      'Demo: admin/admin123 · quanly/ql123 · user/user123',
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
