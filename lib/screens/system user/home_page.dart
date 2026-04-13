@@ -1,6 +1,6 @@
 import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/screens/product_detail_page.dart';
-import 'package:app_quanlyxaydung/screens/product_list_page.dart';
+import 'package:app_quanlyxaydung/screens/system user/product_detail_page.dart';
+import 'package:app_quanlyxaydung/screens/system user/product_list_page.dart';
 import 'package:app_quanlyxaydung/services/product_service.dart';
 import 'package:app_quanlyxaydung/widgets/product_card.dart';
 import 'package:flutter/material.dart';

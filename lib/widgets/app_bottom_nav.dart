@@ -1,8 +1,8 @@
 import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/screens/cart_page.dart';
-import 'package:app_quanlyxaydung/screens/category_page.dart';
-import 'package:app_quanlyxaydung/screens/home_page.dart';
-import 'package:app_quanlyxaydung/screens/orders_page.dart';
+import 'package:app_quanlyxaydung/screens/system user/cart_page.dart';
+import 'package:app_quanlyxaydung/screens/system user/category_page.dart';
+import 'package:app_quanlyxaydung/screens/system user/home_page.dart';
+import 'package:app_quanlyxaydung/screens/system user/orders_page.dart';
 import 'package:app_quanlyxaydung/services/cart_service.dart';
 import 'package:app_quanlyxaydung/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';

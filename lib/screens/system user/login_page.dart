@@ -1,5 +1,5 @@
 import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/screens/register_page.dart';
+import 'package:app_quanlyxaydung/screens/system user/register_page.dart';
 import 'package:app_quanlyxaydung/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
