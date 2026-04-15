@@ -295,19 +295,11 @@ class _CartItemTile extends StatelessWidget {
               color: theme.colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: (item.product.imageAsset != null && item.product.imageAsset!.isNotEmpty)
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      item.product.imageAsset!,
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                : Icon(
-                    _iconMap[item.product.category] ?? Icons.build_outlined,
-                    size: 28,
-                    color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
-                  ),
+            child: Icon(
+              _iconMap[item.product.category] ?? Icons.build_outlined,
+              size: 28,
+              color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
+            ),
           ),
           const SizedBox(width: 12),
           // Info

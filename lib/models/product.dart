@@ -8,7 +8,7 @@ class Product {
     required this.stock,
     required this.description,
     this.specs = const [],
-    this.imageAsset,
+    this.imageIcon,
   });
 
   final String id;
@@ -19,7 +19,7 @@ class Product {
   final int stock;
   final String description;
   final List<String> specs;
-  final String? imageAsset;
+  final String? imageIcon;
 
   String get formattedPrice {
     final p = price.toInt();

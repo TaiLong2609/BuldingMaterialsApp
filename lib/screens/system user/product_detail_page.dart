@@ -257,23 +257,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 color: theme.colorScheme.surfaceContainerHighest,
-                child: (product.imageAsset != null && product.imageAsset!.isNotEmpty)
-                    ? Image.asset(
-                        product.imageAsset!,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            _iconMap[product.category] ?? Icons.build_outlined,
-                            size: 100,
-                            color: theme.colorScheme.onSurfaceVariant
-                                .withValues(alpha: 0.25),
-                          ),
-                        ],
-                      ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      _iconMap[product.category] ?? Icons.build_outlined,
+                      size: 100,
+                      color: theme.colorScheme.onSurfaceVariant
+                          .withValues(alpha: 0.25),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

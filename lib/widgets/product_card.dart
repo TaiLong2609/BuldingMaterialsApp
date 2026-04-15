@@ -44,19 +44,9 @@ class ProductCard extends StatelessWidget {
                     top: Radius.circular(12),
                   ),
                 ),
-                child: (product.imageAsset != null && product.imageAsset!.isNotEmpty)
-                    ? ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(12)),
-                        child: Image.asset(
-                          product.imageAsset!,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                      )
-                    : Center(
-                        child: _buildProductIcon(context),
-                      ),
+                child: Center(
+                  child: _buildProductIcon(context),
+                ),
               ),
             ),
             // Info area
