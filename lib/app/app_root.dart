@@ -1,10 +1,6 @@
 import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/screens/systeam%20admin/admin_backup_restore.dart';
-import 'package:app_quanlyxaydung/screens/systeam%20admin/admin_home_page.dart';
-import 'package:app_quanlyxaydung/screens/systeam%20admin/admin_profile.dart';
-import 'package:app_quanlyxaydung/screens/systeam%20admin/admin_user_management.dart';
-import 'package:app_quanlyxaydung/screens/systeam%20admin/admin_user_permissions.dart';
 import 'package:app_quanlyxaydung/screens/system user/login_page.dart';
+import 'package:app_quanlyxaydung/screens/system%20admin/admin_layout.dart';
 import 'package:app_quanlyxaydung/services/auth_service.dart';
 import 'package:app_quanlyxaydung/services/cart_service.dart';
 import 'package:app_quanlyxaydung/widgets/app_bottom_nav.dart';
@@ -142,10 +138,15 @@ class _AppRootState extends State<AppRoot> {
                 authService: widget.authService,
                 onLoggedIn: _onLoggedIn,
               )
-            : AppBottomNav(
-                session: _session!,
-                onLogout: _logout,
-              ),
+            : _session!.role.name == 'admin'
+                ? AdminLayout(
+                    session: _session!,
+                    onLogout: _logout,
+                  )
+                : AppBottomNav(
+                    session: _session!,
+                    onLogout: _logout,
+                  ),
       ),
     );
   }

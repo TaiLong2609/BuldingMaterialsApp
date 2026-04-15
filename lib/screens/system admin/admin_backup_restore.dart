@@ -312,7 +312,7 @@ class _AdminBackupRestorePageState extends State<AdminBackupRestorePage> {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${dungLuongMB} MB • ${backup['NgayThucHien']}'),
+            Text('$dungLuongMB MB • ${backup['NgayThucHien']}'),
             if (backup['GhiChu'] != null && backup['GhiChu'].isNotEmpty)
               Text(
                 backup['GhiChu'],
@@ -571,7 +571,7 @@ class _AdminBackupRestorePageState extends State<AdminBackupRestorePage> {
                   final dungLuongMB = (backup['DungLuongKB'] / 1024).toStringAsFixed(1);
                   return ListTile(
                     title: Text(backup['TenFile']),
-                    subtitle: Text('${dungLuongMB} MB • ${backup['NgayThucHien']}'),
+                    subtitle: Text('$dungLuongMB MB • ${backup['NgayThucHien']}'),
                     onTap: () {
                       Navigator.of(context).pop();
                       _restoreFromBackup(backup);
