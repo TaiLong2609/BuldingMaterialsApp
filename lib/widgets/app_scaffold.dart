@@ -22,10 +22,13 @@ class AppScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: theme.colorScheme.surface,
-        title: Text('VLXD • $title'),
+        title: Text(
+          'VLXD • $title',
+          style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
       ),
       drawer: Drawer(
+        backgroundColor: theme.colorScheme.surfaceContainerHighest,
         child: Column(
           children: [
             UserAccountsDrawerHeader(
