@@ -7,6 +7,7 @@ import 'package:app_quanlyxaydung/widgets/app_bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:app_quanlyxaydung/screens/quan_ly/quan_ly_home_page.dart';
 
 class AppRoot extends StatefulWidget {
   const AppRoot({super.key, required this.authService});
@@ -101,8 +102,7 @@ class _AppRootState extends State<AppRoot> {
         style: FilledButton.styleFrom(
           backgroundColor: const Color(0xFF000666),
           foregroundColor: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -121,8 +121,7 @@ class _AppRootState extends State<AppRoot> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide:
-              const BorderSide(color: Color(0xFF000666), width: 2),
+          borderSide: const BorderSide(color: Color(0xFF000666), width: 2),
         ),
       ),
     );
@@ -139,14 +138,10 @@ class _AppRootState extends State<AppRoot> {
                 onLoggedIn: _onLoggedIn,
               )
             : _session!.role.name == 'admin'
-                ? AdminLayout(
-                    session: _session!,
-                    onLogout: _logout,
-                  )
-                : AppBottomNav(
-                    session: _session!,
-                    onLogout: _logout,
-                  ),
+            ? AdminLayout(session: _session!, onLogout: _logout)
+            : _session!.role.name == 'manager'
+            ? QuanLyHomePage(session: _session!, onLogout: _logout)
+            : AppBottomNav(session: _session!, onLogout: _logout),
       ),
     );
   }

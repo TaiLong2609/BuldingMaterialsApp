@@ -5,13 +5,10 @@ import 'package:app_quanlyxaydung/services/product_service.dart';
 import 'package:app_quanlyxaydung/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:app_quanlyxaydung/screens/system user/profile_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({
-    super.key,
-    required this.session,
-    required this.onLogout,
-  });
+  const HomePage({super.key, required this.session, required this.onLogout});
 
   final UserSession session;
   final VoidCallback onLogout;
@@ -56,13 +53,9 @@ class _HomePageState extends State<HomePage> {
         child: CustomScrollView(
           slivers: [
             // ── App Bar / Header ──
-            SliverToBoxAdapter(
-              child: _buildHeader(context),
-            ),
+            SliverToBoxAdapter(child: _buildHeader(context)),
             // ── Search bar ──
-            SliverToBoxAdapter(
-              child: _buildSearchBar(context),
-            ),
+            SliverToBoxAdapter(child: _buildSearchBar(context)),
             if (_isSearching) ...[
               SliverToBoxAdapter(
                 child: Padding(
@@ -134,16 +127,13 @@ class _HomePageState extends State<HomePage> {
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 sliver: SliverGrid(
-                  delegate: SliverChildBuilderDelegate(
-                    (ctx, i) {
-                      final products = _productService.getFeatured();
-                      return ProductCard(
-                        product: products[i],
-                        onTap: () => _openDetail(ctx, products[i]),
-                      );
-                    },
-                    childCount: _productService.getFeatured().length,
-                  ),
+                  delegate: SliverChildBuilderDelegate((ctx, i) {
+                    final products = _productService.getFeatured();
+                    return ProductCard(
+                      product: products[i],
+                      onTap: () => _openDetail(ctx, products[i]),
+                    );
+                  }, childCount: _productService.getFeatured().length),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 0.72,
@@ -182,10 +172,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Text(
                   'Xin chào, ${widget.session.username} 👋',
-                  style: GoogleFonts.inter(
-                    color: Colors.white70,
-                    fontSize: 13,
-                  ),
+                  style: GoogleFonts.inter(color: Colors.white70, fontSize: 13),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -200,16 +187,43 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.15),
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              onPressed: widget.onLogout,
-              icon: const Icon(Icons.logout, color: Colors.white),
-              tooltip: 'Đăng xuất',
-            ),
+          Row(
+            children: [
+              // Nút Profile
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.person, color: Colors.white),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProfilePage(
+                          session: widget.session,
+                          onLogout: widget.onLogout,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+
+              // Nút Logout
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  onPressed: widget.onLogout,
+                  icon: const Icon(Icons.logout, color: Colors.white),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -250,8 +264,10 @@ class _HomePageState extends State<HomePage> {
                   )
                 : null,
             border: InputBorder.none,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
           ),
         ),
       ),
@@ -269,10 +285,7 @@ class _HomePageState extends State<HomePage> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              theme.colorScheme.secondary,
-              const Color(0xFFBF360C),
-            ],
+            colors: [theme.colorScheme.secondary, const Color(0xFFBF360C)],
           ),
         ),
         child: Stack(
@@ -293,8 +306,10 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(20),
@@ -302,25 +317,26 @@ class _HomePageState extends State<HomePage> {
                     child: Text(
                       'Khuyến mãi tháng 4',
                       style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600),
+                        color: Colors.white,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
                   FittedBox(
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Giảm 15% Xi Măng\n& Vật Liệu Xây',
-                          style: GoogleFonts.workSans(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w800,
-                            height: 1.2,
-                          ),
-                        ),
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Giảm 15% Xi Măng\n& Vật Liệu Xây',
+                      style: GoogleFonts.workSans(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        height: 1.2,
                       ),
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   SizedBox(
                     height: 32,
@@ -346,7 +362,9 @@ class _HomePageState extends State<HomePage> {
                       child: Text(
                         'Mua ngay',
                         style: GoogleFonts.inter(
-                            fontSize: 12, fontWeight: FontWeight.w700),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),

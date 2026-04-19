@@ -31,4 +31,28 @@ class Product {
     }
     return '$bufđ/$unit';
   }
+
+  Product copyWith({
+    String? id,
+    String? name,
+    String? category,
+    double? price,
+    String? unit,
+    int? stock,
+    String? description,
+    List<String>? specs,
+    String? imageIcon,
+  }) {
+    return Product(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      category: category ?? this.category,
+      price: price ?? this.price,
+      unit: unit ?? this.unit,
+      stock: stock ?? this.stock,
+      description: description ?? this.description,
+      specs: specs ?? this.specs,
+      imageIcon: imageIcon ?? this.imageIcon,
+    );
+  }
 }

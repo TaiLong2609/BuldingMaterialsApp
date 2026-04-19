@@ -4,20 +4,20 @@ enum OrderStatus { pending, confirmed, shipping, delivered, cancelled }
 
 extension OrderStatusLabel on OrderStatus {
   String get label => switch (this) {
-        OrderStatus.pending => 'Chờ xác nhận',
-        OrderStatus.confirmed => 'Đã xác nhận',
-        OrderStatus.shipping => 'Đang giao',
-        OrderStatus.delivered => 'Đã giao',
-        OrderStatus.cancelled => 'Đã huỷ',
-      };
+    OrderStatus.pending => 'Chờ xác nhận',
+    OrderStatus.confirmed => 'Đã xác nhận',
+    OrderStatus.shipping => 'Đang giao',
+    OrderStatus.delivered => 'Đã giao',
+    OrderStatus.cancelled => 'Đã huỷ',
+  };
 
   String get emoji => switch (this) {
-        OrderStatus.pending => '⏳',
-        OrderStatus.confirmed => '✅',
-        OrderStatus.shipping => '🚚',
-        OrderStatus.delivered => '📦',
-        OrderStatus.cancelled => '❌',
-      };
+    OrderStatus.pending => '⏳',
+    OrderStatus.confirmed => '✅',
+    OrderStatus.shipping => '🚚',
+    OrderStatus.delivered => '📦',
+    OrderStatus.cancelled => '❌',
+  };
 }
 
 class Order {
@@ -37,8 +37,7 @@ class Order {
   final DateTime createdAt;
   final String address;
 
-  double get totalAmount =>
-      items.fold(0, (sum, item) => sum + item.totalPrice);
+  double get totalAmount => items.fold(0, (sum, item) => sum + item.totalPrice);
 
   int get totalItems => items.fold(0, (sum, item) => sum + item.quantity);
 
@@ -51,5 +50,12 @@ class Order {
       buf.write(s[i]);
     }
     return '$bufđ';
+  }
+
+  double get total {
+    return items.fold(
+      0,
+      (sum, item) => sum + item.product.price * item.quantity,
+    );
   }
 }
