@@ -1,10 +1,11 @@
-import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/screens/system user/cart_page.dart';
-import 'package:app_quanlyxaydung/screens/system user/category_page.dart';
-import 'package:app_quanlyxaydung/screens/system user/home_page.dart';
-import 'package:app_quanlyxaydung/screens/system user/orders_page.dart';
-import 'package:app_quanlyxaydung/services/cart_service.dart';
-import 'package:app_quanlyxaydung/widgets/app_drawer.dart';
+import 'package:app_bachhoa/models/user_session.dart';
+import 'package:app_bachhoa/screens/system user/cart_page.dart';
+import 'package:app_bachhoa/screens/system user/category_page.dart';
+import 'package:app_bachhoa/screens/system user/home_page.dart';
+import 'package:app_bachhoa/screens/system user/orders_page.dart';
+import 'package:app_bachhoa/screens/system user/profile_page.dart';
+import 'package:app_bachhoa/services/cart_service.dart';
+import 'package:app_bachhoa/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -40,10 +41,10 @@ class _AppBottomNavState extends State<AppBottomNav> {
       };
     }
     return switch (_index) {
-      0 => 'VLXD Store',
+      0 => 'Bách Hóa Online',
       1 => 'Danh Mục',
-      2 => 'Giỏ Hàng',
-      _ => 'Đơn Hàng',
+      2 => 'Lịch Sử Đơn Hàng',
+      _ => 'Tài Khoản',
     };
   }
 
@@ -65,8 +66,8 @@ class _AppBottomNavState extends State<AppBottomNav> {
         : [
             HomePage(session: widget.session, onLogout: widget.onLogout),
             CategoryPage(session: widget.session, onLogout: widget.onLogout),
-            CartPage(session: widget.session, onLogout: widget.onLogout),
             OrdersPage(session: widget.session, onLogout: widget.onLogout),
+            ProfilePage(session: widget.session, onLogout: widget.onLogout),
           ];
 
     // ─── Bottom nav destinations ──────────────────────────────────
@@ -90,23 +91,19 @@ class _AppBottomNavState extends State<AppBottomNav> {
               label: 'Trang chủ',
             ),
             const NavigationDestination(
-              icon: Icon(Icons.category_outlined),
-              selectedIcon: Icon(Icons.category),
+              icon: Icon(Icons.grid_view_outlined),
+              selectedIcon: Icon(Icons.grid_view),
               label: 'Danh mục',
             ),
-            NavigationDestination(
-              icon: Badge(
-                label: cartCount > 0 ? Text('$cartCount') : null,
-                isLabelVisible: cartCount > 0,
-                child: const Icon(Icons.shopping_cart_outlined),
-              ),
-              selectedIcon: const Icon(Icons.shopping_cart),
-              label: 'Giỏ hàng',
+            const NavigationDestination(
+              icon: Icon(Icons.receipt_long_outlined),
+              selectedIcon: Icon(Icons.receipt_long),
+              label: 'Đơn hàng',
             ),
             const NavigationDestination(
-              icon: Icon(Icons.list_alt_outlined),
-              selectedIcon: Icon(Icons.list_alt),
-              label: 'Đơn hàng',
+              icon: Icon(Icons.person_outline),
+              selectedIcon: Icon(Icons.person),
+              label: 'Tài khoản',
             ),
           ];
 
@@ -140,7 +137,7 @@ class _AppBottomNavState extends State<AppBottomNav> {
                 IconButton(
                   icon: const Icon(Icons.shopping_cart_outlined),
                   tooltip: 'Giỏ hàng',
-                  onPressed: () => setState(() => _index = 2),
+                  onPressed: () => _showCart(context),
                 ),
                 if (cartCount > 0)
                   Positioned(
@@ -206,6 +203,18 @@ class _AppBottomNavState extends State<AppBottomNav> {
         indicatorColor:
             theme.colorScheme.primaryContainer.withValues(alpha: 0.15),
         destinations: destinations,
+      ),
+    );
+  }
+
+  void _showCart(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => CartPage(
+          session: widget.session,
+          onLogout: widget.onLogout,
+        ),
+        fullscreenDialog: true,
       ),
     );
   }

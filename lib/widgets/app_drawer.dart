@@ -1,5 +1,5 @@
-import 'package:app_quanlyxaydung/models/user_role.dart';
-import 'package:app_quanlyxaydung/models/user_session.dart';
+import 'package:app_bachhoa/models/user_role.dart';
+import 'package:app_bachhoa/models/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -102,21 +102,21 @@ class AppDrawer extends StatelessWidget {
             tabIndex: 0,
           ),
           const _DrawerItemData(
-            icon: Icons.category_outlined,
-            activeIcon: Icons.category,
+            icon: Icons.grid_view_outlined,
+            activeIcon: Icons.grid_view,
             label: 'Danh Mục',
             tabIndex: 1,
           ),
           const _DrawerItemData(
-            icon: Icons.shopping_cart_outlined,
-            activeIcon: Icons.shopping_cart,
-            label: 'Giỏ Hàng',
+            icon: Icons.receipt_long_outlined,
+            activeIcon: Icons.receipt_long,
+            label: 'Lịch Sử Đơn Hàng',
             tabIndex: 2,
           ),
           const _DrawerItemData(
-            icon: Icons.list_alt_outlined,
-            activeIcon: Icons.list_alt,
-            label: 'Đơn Hàng Của Tôi',
+            icon: Icons.person_outline,
+            activeIcon: Icons.person,
+            label: 'Tài Khoản',
             tabIndex: 3,
           ),
         ],
@@ -146,7 +146,7 @@ class _DrawerHeader extends StatelessWidget {
 
   String get _roleLabel => switch (session.role) {
         UserRole.admin => 'Quản trị viên',
-        UserRole.manager => 'Quản lý VLXD',
+        UserRole.manager => 'Quản lý Bách Hóa',
         UserRole.customer => 'Khách hàng',
       };
 

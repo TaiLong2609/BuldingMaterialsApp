@@ -1,4 +1,4 @@
-# PROJECT NOTES — BuldingMaterialsApp (VLXD Store)
+# PROJECT NOTES — Bách Hóa Online App
 
 > **Đọc file này trước khi làm việc** để tránh mất context giữa các session AI.
 > Cập nhật mỗi khi có thay đổi kiến trúc quan trọng.
@@ -7,7 +7,7 @@
 
 ## 1. Mục tiêu dự án
 
-Ứng dụng quản lý vật liệu xây dựng (VLXD) Flutter, xây dựng từ Stitch project
+Ứng dụng bán thực phẩm tươi sạch trực tuyến (Bách Hóa Online) Flutter, xây dựng từ Stitch project
 **"Quản Lý Đơn Hàng - Orders"** với design system **Industrial Sophistication**.
 
 ---
@@ -39,7 +39,7 @@ lib/
 │   └── user_session.dart      # UserSession model
 ├── services/
 │   ├── auth_service.dart      # Login/register, đọc seed_accounts.txt
-│   ├── product_service.dart   # 18 mock products, 8 categories
+│   ├── product_service.dart   # 18 mock products, 8 danh mục thực phẩm
 │   ├── cart_service.dart      # ChangeNotifier, add/remove/update/clear
 │   └── order_service.dart     # SINGLETON, mock orders, getByCustomer()
 ├── screens/
@@ -60,7 +60,22 @@ lib/
 
 ---
 
-## 4. Design System — Industrial Sophistication
+## 4. Danh mục thực phẩm hiện có
+
+| ID | Tên | Icon |
+|---|---|---|
+| `rau-cu` | Rau Củ | eco_outlined |
+| `thit-ca` | Thịt & Hải Sản | set_meal_outlined |
+| `do-kho` | Đồ Khô & Gia Vị | inventory_2_outlined |
+| `sua-trung` | Sữa & Trứng | egg_outlined |
+| `banh-keo` | Bánh & Kẹo | bakery_dining_outlined |
+| `do-uong` | Đồ Uống | local_drink_outlined |
+| `dong-lanh` | Đông Lạnh | ac_unit_outlined |
+| `che-bien` | Thực Phẩm Chế Biến | restaurant_outlined |
+
+---
+
+## 5. Design System — Industrial Sophistication
 
 ### Colors
 | Token | Value | Dùng cho |
@@ -83,7 +98,7 @@ lib/
 
 ---
 
-## 5. State Management
+## 6. State Management
 
 - **`CartService`**: `ChangeNotifier`, wrapped bởi `ChangeNotifierProvider` trong `AppRoot`
 - **`OrderService`**: **Singleton** — mọi nơi gọi `OrderService()` đều dùng cùng instance
@@ -91,7 +106,7 @@ lib/
 
 ---
 
-## 6. Navigation Flow
+## 7. Navigation Flow
 
 ```
 LoginPage ──────────────────────────────────► RegisterPage
@@ -111,7 +126,7 @@ AppBottomNav (Scaffold chính)
 
 ---
 
-## 7. Logic phân quyền
+## 8. Logic phân quyền
 
 ### Customer
 - Thấy: Home, Danh mục, Giỏ hàng, Đơn hàng (chỉ của mình)
@@ -125,7 +140,7 @@ AppBottomNav (Scaffold chính)
 
 ---
 
-## 8. Những việc còn có thể làm (backlog)
+## 9. Những việc còn có thể làm (backlog)
 
 - [ ] Kết nối backend thật (thay mock services)
 - [ ] Persistent cart (SharedPreferences hoặc sqflite)
@@ -139,7 +154,14 @@ AppBottomNav (Scaffold chính)
 
 ---
 
-## 9. Lưu ý kỹ thuật
+## 10. Lưu ý kỹ thuật
+
+### Package name
+```yaml
+# pubspec.yaml
+name: app_bachhoa
+```
+Tất cả imports phải dùng `package:app_bachhoa/...`
 
 ### OrderService Singleton
 ```dart

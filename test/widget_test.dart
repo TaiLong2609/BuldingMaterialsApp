@@ -7,8 +7,8 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:app_quanlyxaydung/app/app_root.dart';
-import 'package:app_quanlyxaydung/services/auth_service.dart';
+import 'package:app_bachhoa/app/app_root.dart';
+import 'package:app_bachhoa/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

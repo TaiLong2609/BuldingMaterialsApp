@@ -1,6 +1,6 @@
-import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/screens/system user/product_list_page.dart';
-import 'package:app_quanlyxaydung/services/product_service.dart';
+import 'package:app_bachhoa/models/user_session.dart';
+import 'package:app_bachhoa/screens/system user/product_list_page.dart';
+import 'package:app_bachhoa/services/product_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,12 +28,27 @@ class CategoryPage extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               color: theme.colorScheme.surfaceContainerLow,
-              child: Text(
-                'Chọn danh mục',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Danh Mục',
+                    style: GoogleFonts.workSans(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Organic produce and household essentials for a conscious lifestyle.',
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      color: theme.colorScheme.onSurfaceVariant,
+                      height: 1.45,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -97,6 +112,79 @@ class CategoryPage extends StatelessWidget {
                 childAspectRatio: 1.1,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
+              ),
+            ),
+          ),
+
+          const SliverToBoxAdapter(child: SizedBox(height: 20)),
+
+          // ── Quality Assurance Section (Stitch) ─────────────────────
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Section header
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          theme.colorScheme.primary,
+                          theme.colorScheme.primaryContainer,
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Quality Assurance',
+                          style: GoogleFonts.workSans(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          'Every product is vetted for organic certification, sustainability, and ethical sourcing before reaching your kitchen.',
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            color: Colors.white.withValues(alpha: 0.85),
+                            height: 1.5,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        // Two feature chips
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _QualityChip(
+                                icon: Icons.verified_outlined,
+                                title: 'Certified Organic',
+                                subtitle: '100% pesticide-free & non-GMO.',
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: _QualityChip(
+                                icon: Icons.local_florist_outlined,
+                                title: 'Fresh Guarantee',
+                                subtitle: 'Daily arrivals from local farms.',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -166,7 +254,7 @@ class _CategoryCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -179,7 +267,7 @@ class _CategoryCard extends StatelessWidget {
               width: 56,
               height: 56,
               decoration: BoxDecoration(
-                color: category.color.withOpacity(0.12),
+                color: category.color.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: Icon(category.icon, color: category.color, size: 28),
@@ -204,6 +292,65 @@ class _CategoryCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// ── Quality Chip Widget ────────────────────────────────────────────────────────
+class _QualityChip extends StatelessWidget {
+  const _QualityChip({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.18),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.25),
+          width: 0.8,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: Colors.white, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.workSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: GoogleFonts.inter(
+                    fontSize: 10,
+                    color: Colors.white.withValues(alpha: 0.8),
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,6 +1,6 @@
-import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/screens/system user/register_page.dart';
-import 'package:app_quanlyxaydung/services/auth_service.dart';
+import 'package:app_bachhoa/models/user_session.dart';
+import 'package:app_bachhoa/screens/system user/register_page.dart';
+import 'package:app_bachhoa/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -126,8 +126,8 @@ class _LoginPageState extends State<LoginPage> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                theme.colorScheme.primary.withOpacity(0.65),
-                theme.colorScheme.tertiary.withOpacity(0.25),
+                theme.colorScheme.primary.withValues(alpha: 0.65),
+                theme.colorScheme.tertiary.withValues(alpha: 0.25),
               ],
             ),
           ),
@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'VLXD',
+                'Bách Hóa',
                 style: theme.textTheme.displaySmall?.copyWith(
                   fontWeight: FontWeight.w800,
                   color: theme.colorScheme.onPrimary,
@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 12),
               Text(
-                'Khám phá vật liệu xây dựng bạn cần.',
+                'Thực phẩm tươi sạch, giao hàng tận nhà.',
                 style: theme.textTheme.headlineSmall?.copyWith(
                   color: theme.colorScheme.onPrimary,
                 ),
@@ -156,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
               Text(
                 'Đăng nhập để tiếp tục.',
                 style: theme.textTheme.bodyLarge?.copyWith(
-                  color: theme.colorScheme.onPrimary.withOpacity(0.9),
+                  color: theme.colorScheme.onPrimary.withValues(alpha: 0.9),
                 ),
               ),
             ],
@@ -227,6 +227,20 @@ class _LoginPageState extends State<LoginPage> {
                       child: FilledButton(
                         onPressed: _isSubmitting ? null : _submit,
                         child: const Text('Đăng nhập'),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Quên mật khẩu?',
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 12),

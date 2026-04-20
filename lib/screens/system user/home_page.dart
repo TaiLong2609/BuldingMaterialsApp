@@ -1,8 +1,8 @@
-import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/screens/system user/product_detail_page.dart';
-import 'package:app_quanlyxaydung/screens/system user/product_list_page.dart';
-import 'package:app_quanlyxaydung/services/product_service.dart';
-import 'package:app_quanlyxaydung/widgets/product_card.dart';
+import 'package:app_bachhoa/models/user_session.dart';
+import 'package:app_bachhoa/screens/system user/product_detail_page.dart';
+import 'package:app_bachhoa/screens/system user/product_list_page.dart';
+import 'package:app_bachhoa/services/product_service.dart';
+import 'package:app_bachhoa/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -96,11 +96,13 @@ class _HomePageState extends State<HomePage> {
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
             ] else ...[
-              // ── Hero Banner ──
+              // ── Hero Banner ──────────────────────────────────
               SliverToBoxAdapter(child: _buildHeroBanner(context)),
-              // ── Quick Categories ──
+              // ── Feature Banners (Eco + Express) ─────────────
+              SliverToBoxAdapter(child: _buildFeatureBanners(context)),
+              // ── Quick Categories ─────────────────────────────
               SliverToBoxAdapter(child: _buildQuickCategories(context)),
-              // ── Featured Products ──
+              // ── New Arrivals Section header ───────────────────
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
@@ -108,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Sản phẩm nổi bật',
+                        'Hàng Mới Về',
                         style: GoogleFonts.workSans(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
@@ -189,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'VLXD Store',
+                  'Bách Hóa Online',
                   style: GoogleFonts.workSans(
                     color: Colors.white,
                     fontSize: 24,
@@ -237,7 +239,7 @@ class _HomePageState extends State<HomePage> {
           controller: _searchCtrl,
           onChanged: _onSearch,
           decoration: InputDecoration(
-            hintText: 'Tìm xi măng, gạch, thép…',
+            hintText: 'Tìm rau củ, thịt cá, sữa…',
             hintStyle: GoogleFonts.inter(color: Colors.grey[400], fontSize: 14),
             prefixIcon: const Icon(Icons.search, color: Colors.grey),
             suffixIcon: _isSearching
@@ -258,79 +260,125 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // ── Hero Banner (Stitch: "Fresh Every Day") ────────────────────────────
   Widget _buildHeroBanner(BuildContext context) {
-    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Container(
-        constraints: const BoxConstraints(minHeight: 160),
+        constraints: const BoxConstraints(minHeight: 190),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          gradient: LinearGradient(
+          borderRadius: BorderRadius.circular(20),
+          gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              theme.colorScheme.secondary,
-              const Color(0xFFBF360C),
+              Color(0xFF1B5E20), // deep forest green
+              Color(0xFF33691E), // olive green
+              Color(0xFF558B2F), // medium leaf green
             ],
+            stops: [0.0, 0.5, 1.0],
           ),
         ),
         child: Stack(
           children: [
+            // ── Decorative background circles ──
             Positioned(
-              right: -20,
-              bottom: -20,
-              child: Icon(
-                Icons.business_center_outlined,
-                size: 160,
-                color: Colors.white.withValues(alpha: 0.08),
+              right: -30,
+              top: -30,
+              child: Container(
+                width: 160,
+                height: 160,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.05),
+                ),
               ),
             ),
+            Positioned(
+              right: 20,
+              bottom: -20,
+              child: Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: 0.06),
+                ),
+              ),
+            ),
+            // ── Decorative leaf icon ──
+            Positioned(
+              right: 20,
+              top: 0,
+              bottom: 0,
+              child: Icon(
+                Icons.eco,
+                size: 110,
+                color: Colors.white.withValues(alpha: 0.1),
+              ),
+            ),
+            // ── Content ──
             Padding(
               padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Badge tag
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: Colors.white.withValues(alpha: 0.18),
                       borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.3),
+                        width: 0.8,
+                      ),
                     ),
                     child: Text(
-                      'Khuyến mãi tháng 4',
+                      '🌾  Farm Fresh Organic Harvest',
                       style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600),
+                        color: Colors.white,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.3,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  // Main headline
+                  Text(
+                    'Fresh Every Day',
+                    style: GoogleFonts.workSans(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: FontWeight.w800,
+                      height: 1.1,
+                      letterSpacing: -0.5,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  FittedBox(
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Giảm 15% Xi Măng\n& Vật Liệu Xây',
-                          style: GoogleFonts.workSans(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w800,
-                            height: 1.2,
-                          ),
-                        ),
-                      ),
-                  const SizedBox(height: 12),
+                  // Sub tagline
+                  Text(
+                    'Sourcing organic farm-to-table\ngroceries for your family.',
+                    style: GoogleFonts.inter(
+                      color: Colors.white.withValues(alpha: 0.8),
+                      fontSize: 12,
+                      height: 1.55,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // CTA button
                   SizedBox(
-                    height: 32,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Colors.white, width: 1.5),
-                        foregroundColor: Colors.white,
+                    height: 36,
+                    child: FilledButton.icon(
+                      style: FilledButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: const Color(0xFF1B5E20),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(8),
                         ),
+                        elevation: 0,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                       ),
                       onPressed: () => Navigator.push(
@@ -339,14 +387,16 @@ class _HomePageState extends State<HomePage> {
                           builder: (_) => ProductListPage(
                             session: widget.session,
                             onLogout: widget.onLogout,
-                            filterCategory: 'xi-mang',
                           ),
                         ),
                       ),
-                      child: Text(
-                        'Mua ngay',
-                        style: GoogleFonts.inter(
-                            fontSize: 12, fontWeight: FontWeight.w700),
+                      icon: const Icon(Icons.storefront_outlined, size: 16),
+                      label: Text(
+                        'Our Mission',
+                        style: GoogleFonts.workSans(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),
@@ -355,6 +405,48 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // ── Feature Banners (Stitch: Eco Packaging + Express Delivery) ───────────
+  Widget _buildFeatureBanners(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+      child: Row(
+        children: [
+          // ── Eco Packaging ──
+          Expanded(
+            child: _FeatureBannerCard(
+              icon: Icons.recycling,
+              iconBgColor: const Color(0xFF1B5E20).withValues(alpha: 0.1),
+              iconColor: const Color(0xFF2E7D32),
+              title: 'Eco Packaging',
+              subtitle: 'Sustainable delivery with zero-waste materials.',
+              gradientColors: const [
+                Color(0xFFE8F5E9),
+                Color(0xFFF1F8E9),
+              ],
+              borderColor: const Color(0xFF2E7D32).withValues(alpha: 0.2),
+            ),
+          ),
+          const SizedBox(width: 12),
+          // ── Express Delivery ──
+          Expanded(
+            child: _FeatureBannerCard(
+              icon: Icons.electric_bolt,
+              iconBgColor: const Color(0xFFE65100).withValues(alpha: 0.1),
+              iconColor: const Color(0xFFE65100),
+              title: 'Express Delivery',
+              subtitle: '60-minute delivery to your doorstep, guaranteed.',
+              gradientColors: const [
+                Color(0xFFFFF3E0),
+                Color(0xFFFFF8E1),
+              ],
+              borderColor: const Color(0xFFE65100).withValues(alpha: 0.2),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -446,6 +538,85 @@ class _HomePageState extends State<HomePage> {
           session: widget.session,
           onLogout: widget.onLogout,
         ),
+      ),
+    );
+  }
+}
+
+// ── Feature Banner Card ──────────────────────────────────────────────────────
+class _FeatureBannerCard extends StatelessWidget {
+  const _FeatureBannerCard({
+    required this.icon,
+    required this.iconBgColor,
+    required this.iconColor,
+    required this.title,
+    required this.subtitle,
+    required this.gradientColors,
+    required this.borderColor,
+  });
+
+  final IconData icon;
+  final Color iconBgColor;
+  final Color iconColor;
+  final String title;
+  final String subtitle;
+  final List<Color> gradientColors;
+  final Color borderColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: gradientColors,
+        ),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: borderColor, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: iconColor.withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Icon circle
+          Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: iconBgColor,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: iconColor, size: 20),
+          ),
+          const SizedBox(height: 10),
+          // Title
+          Text(
+            title,
+            style: GoogleFonts.workSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: iconColor,
+            ),
+          ),
+          const SizedBox(height: 4),
+          // Subtitle
+          Text(
+            subtitle,
+            style: GoogleFonts.inter(
+              fontSize: 11,
+              color: const Color(0xFF424242),
+              height: 1.45,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,7 +1,7 @@
-import 'package:app_quanlyxaydung/models/cart_item.dart';
-import 'package:app_quanlyxaydung/models/order.dart';
-import 'package:app_quanlyxaydung/models/product.dart';
-import 'package:app_quanlyxaydung/services/product_service.dart';
+import 'package:app_bachhoa/models/cart_item.dart';
+import 'package:app_bachhoa/models/order.dart';
+import 'package:app_bachhoa/models/product.dart';
+import 'package:app_bachhoa/services/product_service.dart';
 
 class OrderService {
   // ── Singleton ─────────────────────────────────────────────────
@@ -70,7 +70,7 @@ class OrderService {
       Order(
         id: 'DH2024001',
         customerName: 'Nguyễn Văn An',
-        items: [c(products[0], 20), c(products[3], 500)],
+        items: [c(products[0], 5), c(products[6], 3)],
         status: OrderStatus.delivered,
         createdAt: DateTime(2024, 4, 1),
         address: '12 Lê Lợi, Quận 1, TP.HCM',
@@ -78,7 +78,7 @@ class OrderService {
       Order(
         id: 'DH2024002',
         customerName: 'Trần Thị Bình',
-        items: [c(products[6], 10), c(products[9], 5)],
+        items: [c(products[3], 2), c(products[9], 4)],
         status: OrderStatus.shipping,
         createdAt: DateTime(2024, 4, 5),
         address: '45 Nguyễn Huệ, Quận 1, TP.HCM',
@@ -86,7 +86,7 @@ class OrderService {
       Order(
         id: 'DH2024003',
         customerName: 'Lê Minh Công',
-        items: [c(products[11], 3), c(products[12], 2)],
+        items: [c(products[1], 1), c(products[4], 2)],
         status: OrderStatus.confirmed,
         createdAt: DateTime(2024, 4, 8),
         address: '88 Trần Hưng Đạo, Quận 5, TP.HCM',
@@ -94,7 +94,7 @@ class OrderService {
       Order(
         id: 'DH2024004',
         customerName: 'Phạm Thị Duyên',
-        items: [c(products[14], 50), c(products[15], 30)],
+        items: [c(products[14], 6), c(products[7], 10)],
         status: OrderStatus.pending,
         createdAt: DateTime(2024, 4, 10),
         address: '23 Hai Bà Trưng, Quận 3, TP.HCM',
@@ -102,7 +102,7 @@ class OrderService {
       Order(
         id: 'DH2024005',
         customerName: 'Hoàng Văn Em',
-        items: [c(products[1], 15), c(products[4], 200)],
+        items: [c(products[2], 3), c(products[10], 2)],
         status: OrderStatus.cancelled,
         createdAt: DateTime(2024, 4, 3),
         address: '56 Điện Biên Phủ, Quận Bình Thạnh, TP.HCM',
@@ -110,7 +110,7 @@ class OrderService {
       Order(
         id: 'DH2024006',
         customerName: 'Vũ Thị Phương',
-        items: [c(products[16], 10), c(products[17], 5)],
+        items: [c(products[15], 5), c(products[16], 3)],
         status: OrderStatus.shipping,
         createdAt: DateTime(2024, 4, 11),
         address: '34 Cách Mạng Tháng 8, Quận 10, TP.HCM',
@@ -118,7 +118,7 @@ class OrderService {
       Order(
         id: 'DH2024007',
         customerName: 'Đặng Văn Giang',
-        items: [c(products[7], 5), c(products[8], 3)],
+        items: [c(products[5], 2), c(products[11], 3)],
         status: OrderStatus.confirmed,
         createdAt: DateTime(2024, 4, 12),
         address: '78 Pasteur, Quận 1, TP.HCM',
@@ -127,7 +127,7 @@ class OrderService {
       Order(
         id: 'DH2024008',
         customerName: 'user',
-        items: [c(products[0], 5), c(products[2], 10)],
+        items: [c(products[6], 5), c(products[9], 2)],
         status: OrderStatus.delivered,
         createdAt: DateTime(2024, 4, 2),
         address: '99 Nguyễn Trãi, Quận 5, TP.HCM',
@@ -135,7 +135,7 @@ class OrderService {
       Order(
         id: 'DH2024009',
         customerName: 'user',
-        items: [c(products[5], 3)],
+        items: [c(products[3], 3)],
         status: OrderStatus.pending,
         createdAt: DateTime(2024, 4, 13),
         address: '12 Lê Văn Sỹ, Quận 3, TP.HCM',
@@ -143,7 +143,7 @@ class OrderService {
       Order(
         id: 'DH2024010',
         customerName: 'user',
-        items: [c(products[10], 2), c(products[14], 20)],
+        items: [c(products[1], 2), c(products[14], 4)],
         status: OrderStatus.shipping,
         createdAt: DateTime(2024, 4, 11),
         address: '12 Lê Văn Sỹ, Quận 3, TP.HCM',

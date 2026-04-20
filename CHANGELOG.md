@@ -1,4 +1,53 @@
-# CHANGELOG — BuldingMaterialsApp
+# CHANGELOG — Bách Hóa Online App
+
+> File này ghi lại toàn bộ thay đổi theo phiên làm việc.
+> AI và developer đọc file này để tiếp tục mà không mất context.
+
+---
+
+## [Session 4] — 2026-04-20
+
+### ✅ Chuyển đổi nội dung: VLXD → Bách Hóa (Food Store)
+
+> Giữ nguyên 100% kiến trúc, business logic, design system — chỉ thay nội dung.
+
+#### Rename package
+- **`pubspec.yaml`** — Đổi `name: app_quanlyxaydung` → `name: app_bachhoa`, cập nhật description
+- **Toàn bộ 28 file `.dart`** — Bulk rename tất cả imports `package:app_quanlyxaydung/` → `package:app_bachhoa/`
+- **`test/widget_test.dart`** — Cập nhật imports
+
+#### Thay nội dung thực phẩm
+- **`lib/services/product_service.dart`** — Thay 8 danh mục VLXD + 18 sản phẩm xây dựng bằng:
+  - 8 danh mục thực phẩm: Rau Củ, Thịt & Hải Sản, Đồ Khô & Gia Vị, Sữa & Trứng, Bánh & Kẹo, Đồ Uống, Đông Lạnh, Thực Phẩm Chế Biến
+  - 18+ sản phẩm thực phẩm mock: Gạo ST25, Cá Hồi Na Uy, Tôm Thẻ Tươi, Rau Muống Hữu Cơ, Sữa Vinamilk, Trứng Gà Ta, Nước Mắm Phú Quốc...
+  - Giữ nguyên toàn bộ methods: `getAll`, `getByCategory`, `search`, `getFeatured`
+- **`lib/services/order_service.dart`** — Cập nhật mock orders trỏ đúng index sản phẩm thực phẩm mới
+  - Giữ nguyên Singleton pattern, `placeOrder`, `updateStatus`, `getByCustomer`, `getAll`
+
+#### Cập nhật branding / text labels
+- **`lib/app/app_root.dart`** — `title: 'VLXD'` → `title: 'Bách Hóa Online'`
+- **`lib/widgets/app_bottom_nav.dart`** — Tab title `'VLXD Store'` → `'Bách Hóa Online'`
+- **`lib/widgets/app_drawer.dart`** — Role label `'Quản lý VLXD'` → `'Quản lý Bách Hóa'`
+- **`lib/screens/system user/home_page.dart`**:
+  - App header: `'VLXD Store'` → `'Bách Hóa Online'`
+  - Search hint: `'Tìm xi măng, gạch...'` → `'Tìm rau củ, thịt cá, sữa...'`
+  - Hero banner text: `'Giảm 15% Xi Măng & Vật Liệu Xây'` → `'Giảm 20% Rau Củ & Thực Phẩm Tươi'`
+  - Hero banner icon: `business_center_outlined` → `storefront_outlined`
+  - Hero CTA link: category `xi-mang` → `rau-cu`
+  - Featured label: `'Sản phẩm nổi bật'` → `'Sản phẩm bán chạy'`
+- **`lib/screens/system user/login_page.dart`**:
+  - Brand title: `'VLXD'` → `'Bách Hóa'`
+  - Tagline: `'Khám phá vật liệu xây dựng bạn cần.'` → `'Thực phẩm tươi sạch, giao hàng tận nhà.'`
+
+#### Tạo thư mục assets
+- **`assets/products/`** — Tạo thư mục để lưu ảnh sản phẩm sau này
+
+#### Cập nhật docs
+- **`PROJECT_NOTES.md`** — Cập nhật toàn bộ: tên app, package name, danh mục thực phẩm
+
+---
+
+
 
 > File này ghi lại toàn bộ thay đổi theo phiên làm việc.
 > AI và developer đọc file này để tiếp tục mà không mất context.

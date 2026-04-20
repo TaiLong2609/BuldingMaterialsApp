@@ -1,9 +1,9 @@
-import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/screens/system user/login_page.dart';
-import 'package:app_quanlyxaydung/screens/system admin/admin_layout.dart';
-import 'package:app_quanlyxaydung/services/auth_service.dart';
-import 'package:app_quanlyxaydung/services/cart_service.dart';
-import 'package:app_quanlyxaydung/widgets/app_bottom_nav.dart';
+import 'package:app_bachhoa/models/user_session.dart';
+import 'package:app_bachhoa/screens/system user/login_page.dart';
+import 'package:app_bachhoa/screens/system admin/admin_layout.dart';
+import 'package:app_bachhoa/services/auth_service.dart';
+import 'package:app_bachhoa/services/cart_service.dart';
+import 'package:app_bachhoa/widgets/app_bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -130,7 +130,7 @@ class _AppRootState extends State<AppRoot> {
     return ChangeNotifierProvider(
       create: (_) => CartService(),
       child: MaterialApp(
-        title: 'VLXD',
+        title: 'Bách Hóa Online',
         theme: theme,
         debugShowCheckedModeBanner: false,
         home: _session == null

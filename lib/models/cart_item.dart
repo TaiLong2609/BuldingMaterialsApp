@@ -1,4 +1,4 @@
-import 'package:app_quanlyxaydung/models/product.dart';
+﻿import 'package:app_bachhoa/models/product.dart';
 
 class CartItem {
   CartItem({required this.product, this.quantity = 1});

@@ -1,6 +1,6 @@
-import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/services/cart_service.dart';
-import 'package:app_quanlyxaydung/services/order_service.dart';
+import 'package:app_bachhoa/models/user_session.dart';
+import 'package:app_bachhoa/services/cart_service.dart';
+import 'package:app_bachhoa/services/order_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -92,6 +92,36 @@ class CartPage extends StatelessWidget {
                     );
                   },
                   childCount: cart.items.length,
+                ),
+              ),
+            ),
+
+          // Express Delivery banner
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF388E3C).withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.electric_bolt, color: Color(0xFF388E3C), size: 20),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          'Giao hàng nhanh trong 60 phút! Đặt ngay hôm nay.',
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF388E3C),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -257,14 +287,14 @@ class _CartItemTile extends StatelessWidget {
   final ValueChanged<int> onQtyChange;
 
   static const _iconMap = {
-    'xi-mang': Icons.inventory_2_outlined,
-    'gach': Icons.view_module_outlined,
-    'sat-thep': Icons.linear_scale,
-    'cat-da': Icons.terrain_outlined,
-    'son': Icons.format_paint_outlined,
-    'go': Icons.carpenter,
-    'ong-nuoc': Icons.water_outlined,
-    'dien': Icons.bolt_outlined,
+    'rau-cu': Icons.eco_outlined,
+    'thit-ca': Icons.set_meal_outlined,
+    'do-kho': Icons.inventory_2_outlined,
+    'sua-trung': Icons.egg_outlined,
+    'banh-keo': Icons.bakery_dining_outlined,
+    'do-uong': Icons.local_drink_outlined,
+    'dong-lanh': Icons.ac_unit_outlined,
+    'che-bien': Icons.restaurant_outlined,
   };
 
   @override
@@ -296,7 +326,7 @@ class _CartItemTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(
-              _iconMap[item.product.category] ?? Icons.build_outlined,
+              _iconMap[item.product.category] ?? Icons.local_grocery_store_outlined,
               size: 28,
               color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
             ),
