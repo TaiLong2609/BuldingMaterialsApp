@@ -1,6 +1,6 @@
-import 'package:app_quanlyxaydung/models/product.dart';
-import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/services/cart_service.dart';
+import 'package:app_bachhoa/models/product.dart';
+import 'package:app_bachhoa/models/user_session.dart';
+import 'package:app_bachhoa/services/cart_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -44,14 +44,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   late final List<_Review> _reviews = _mockReviews(widget.product.id);
 
   static const _iconMap = {
-    'xi-mang': Icons.inventory_2_outlined,
-    'gach': Icons.view_module_outlined,
-    'sat-thep': Icons.linear_scale,
-    'cat-da': Icons.terrain_outlined,
-    'son': Icons.format_paint_outlined,
-    'go': Icons.carpenter,
-    'ong-nuoc': Icons.water_outlined,
-    'dien': Icons.bolt_outlined,
+    'rau-cu': Icons.eco_outlined,
+    'thit-ca': Icons.set_meal_outlined,
+    'do-kho': Icons.inventory_2_outlined,
+    'sua-trung': Icons.egg_outlined,
+    'banh-keo': Icons.bakery_dining_outlined,
+    'do-uong': Icons.local_drink_outlined,
+    'dong-lanh': Icons.ac_unit_outlined,
+    'che-bien': Icons.restaurant_outlined,
   };
 
   static List<_Review> _mockReviews(String productId) {
@@ -61,26 +61,26 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       _Review(
         author: 'Nguyễn Văn A',
         rating: 5,
-        comment: 'Sản phẩm chất lượng tốt, đúng như mô tả. Sẽ ủng hộ lần sau!',
+        comment: 'Sản phẩm cực kỳ tươi và giòn. Đóng gói rất cẩn thận, chất lượng luôn đồng đều. Sẽ tiếp tục ủng hộ shop lâu dài!',
         date: DateTime(2024, 3, 10),
       ),
       _Review(
         author: 'Trần Thị B',
         rating: 4,
-        comment: 'Hàng ok, giao nhanh. Chỉ cần cải thiện thêm bao bì.',
+        comment: 'Giao hàng siêu tốc. Mở thùng ra mùi thơm nức. Cắn một miếng cảm nhận ngay độ ngọt tự nhiên. Rất hài lòng!',
         date: DateTime(2024, 3, 22),
       ),
       _Review(
         author: 'Lê Minh C',
         rating: 5,
         comment:
-            'Đúng chất lượng công trình, dùng xây nhà rất ổn. Recommend!',
+            'Tươi ngon, đúng chuẩn hữu cơ. Mình mua để chế biến cho gia đình dùng hàng ngày, cả nhà đều thích. Highly recommend!',
         date: DateTime(2024, 4, 1),
       ),
       _Review(
         author: 'Phạm Đức D',
-        rating: 3,
-        comment: 'Tạm ổn, giá hơi cao so với ngoài thị trường.',
+        rating: 4,
+        comment: 'Chất lượng khá tốt, giá hơi cao hơn mặt bằng chung một chút nhưng xứng đáng với chất lượng nhận được.',
         date: DateTime(2024, 4, 8),
       ),
     ];
@@ -353,7 +353,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
                   // ── Specs ─────────────────────────────────────────
                   Text(
-                    'Thông số kỹ thuật',
+                    'Thông Số Chất Lượng',
                     style: GoogleFonts.workSans(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,

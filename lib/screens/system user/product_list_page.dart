@@ -1,8 +1,8 @@
-import 'package:app_quanlyxaydung/models/product.dart';
-import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/screens/system user/product_detail_page.dart';
-import 'package:app_quanlyxaydung/services/product_service.dart';
-import 'package:app_quanlyxaydung/widgets/product_card.dart';
+﻿import 'package:app_bachhoa/models/product.dart';
+import 'package:app_bachhoa/models/user_session.dart';
+import 'package:app_bachhoa/screens/system user/product_detail_page.dart';
+import 'package:app_bachhoa/services/product_service.dart';
+import 'package:app_bachhoa/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

@@ -1,5 +1,5 @@
-import 'package:app_quanlyxaydung/models/user_session.dart';
-import 'package:app_quanlyxaydung/widgets/app_scaffold.dart';
+﻿import 'package:app_bachhoa/models/user_session.dart';
+import 'package:app_bachhoa/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
 
 class PlaceholderPage extends StatelessWidget {
