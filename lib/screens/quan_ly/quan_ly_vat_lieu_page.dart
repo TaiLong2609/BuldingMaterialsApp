@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:app_quanlyxaydung/models/product.dart';
-import 'package:app_quanlyxaydung/services/product_service.dart';
+import 'package:app_bachhoa/models/product.dart';
+import 'package:app_bachhoa/services/product_service.dart';
 
 class QuanLyVatLieuPage extends StatefulWidget {
   const QuanLyVatLieuPage({super.key});

@@ -3,8 +3,6 @@ import 'package:app_bachhoa/screens/system user/orders_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Wrapper bọc OrdersPage với AppBar + back button chuẩn design system,
-/// dùng khi navigate từ ProfilePage (không có app_bottom_nav scaffold).
 class MyOrdersSubPage extends StatelessWidget {
   const MyOrdersSubPage({
     super.key,
