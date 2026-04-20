@@ -7,7 +7,7 @@ import 'package:app_bachhoa/widgets/app_bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:app_quanlyxaydung/screens/quan_ly/quan_ly_home_page.dart';
+import 'package:app_bachhoa/screens/quan_ly/quan_ly_home_page.dart';
 
 class AppRoot extends StatefulWidget {
   const AppRoot({super.key, required this.authService});
