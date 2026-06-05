@@ -87,18 +87,38 @@ class ProductCard extends StatelessWidget {
 
   Widget _buildProductIcon(BuildContext context) {
     final theme = Theme.of(context);
+    final emoji = product.imageIcon;
+    if (emoji != null && emoji.trim().isNotEmpty) {
+      return Container(
+        width: 86,
+        height: 86,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.72),
+          shape: BoxShape.circle,
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          emoji,
+          style: const TextStyle(fontSize: 48),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
     const iconMap = {
-      'xi-mang': Icons.inventory_2_outlined,
-      'gach': Icons.view_module_outlined,
-      'sat-thep': Icons.linear_scale,
-      'cat-da': Icons.terrain_outlined,
-      'son': Icons.format_paint_outlined,
-      'go': Icons.carpenter,
-      'ong-nuoc': Icons.water_outlined,
-      'dien': Icons.bolt_outlined,
+      'rau-cu': Icons.eco_outlined,
+      'trai-cay': Icons.apple_outlined,
+      'thit-ca': Icons.set_meal_outlined,
+      'do-kho': Icons.inventory_2_outlined,
+      'sua-trung': Icons.egg_outlined,
+      'banh-keo': Icons.bakery_dining_outlined,
+      'do-uong': Icons.local_drink_outlined,
+      'dong-lanh': Icons.ac_unit_outlined,
+      'che-bien': Icons.restaurant_outlined,
+      'cham-soc': Icons.cleaning_services_outlined,
     };
     return Icon(
-      iconMap[product.category] ?? Icons.build_outlined,
+      iconMap[product.category] ?? Icons.shopping_basket_outlined,
       size: 52,
       color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
     );

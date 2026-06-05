@@ -1,0 +1,7 @@
+﻿import 'package:app_bachhoa/services/stock_import_repository.dart';
+import 'package:flutter/material.dart';
+
+class LichSuNhapKhoPage extends StatefulWidget { const LichSuNhapKhoPage({super.key}); @override State<LichSuNhapKhoPage> createState()=>_LichSuNhapKhoPageState(); }
+class _LichSuNhapKhoPageState extends State<LichSuNhapKhoPage>{ final _repo=StockImportRepository(); List<StockImportRecord> _items=[]; bool _loading=true; @override void initState(){super.initState();_load();} Future<void> _load()async{setState(()=>_loading=true); final data=await _repo.getRecent(); if(!mounted)return; setState(() { _items = data; _loading = false; });} String _date(DateTime d)=>'${d.day}/${d.month}/${d.year} ${d.hour}:${d.minute.toString().padLeft(2,'0')}'; @override Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:const Text('Lịch sử nhập kho')),body:_loading?const Center(child:CircularProgressIndicator()):RefreshIndicator(onRefresh:_load,child:_items.isEmpty?ListView(children:const[ SizedBox(height:220),Center(child:Text('Chưa có lịch sử nhập kho.'))]):ListView.separated(padding:const EdgeInsets.all(16),itemCount:_items.length,separatorBuilder: (_, separatorIndex) =>const SizedBox(height:8),itemBuilder:(c,i){final r=_items[i];return Card(child:ListTile(leading:const Icon(Icons.history),title:Text(r.productName),subtitle:Text('${_date(r.createdAt)} • ${r.note}'),trailing:Text('+${r.quantity}',style:const TextStyle(fontWeight:FontWeight.bold,fontSize:18))));})));
+}
+

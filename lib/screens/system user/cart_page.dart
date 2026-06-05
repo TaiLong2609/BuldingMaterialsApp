@@ -1,6 +1,11 @@
+﻿import 'package:app_bachhoa/models/cart_item.dart';
+import 'package:app_bachhoa/models/promotion.dart';
 import 'package:app_bachhoa/models/user_session.dart';
+import 'package:app_bachhoa/screens/system user/location_picker_page.dart';
 import 'package:app_bachhoa/services/cart_service.dart';
+import 'package:app_bachhoa/services/order_repository.dart';
 import 'package:app_bachhoa/services/order_service.dart';
+import 'package:app_bachhoa/services/promotion_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -219,62 +224,223 @@ class CartPage extends StatelessWidget {
 
   void _checkout(BuildContext context, CartService cart) {
     final orderService = OrderService();
+    final orderRepository = OrderRepository();
+    final promotionRepository = PromotionRepository();
+
+    String formatMoney(double value) {
+      final s = value.toInt().toString();
+      final buf = StringBuffer();
+      for (var i = 0; i < s.length; i++) {
+        if (i > 0 && (s.length - i) % 3 == 0) buf.write('.');
+        buf.write(s[i]);
+      }
+      return '$bufđ';
+    }
+
     showDialog(
       context: context,
       builder: (ctx) {
         final addrCtrl = TextEditingController();
-        return AlertDialog(
-          title: Text('Xác nhận đặt hàng',
-              style: GoogleFonts.workSans(fontWeight: FontWeight.w700)),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Tổng tiền: ${cart.formattedTotal}',
-                  style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
-              const SizedBox(height: 16),
-              TextField(
-                controller: addrCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Địa chỉ giao hàng',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.location_on_outlined),
+        final promoCtrl = TextEditingController();
+        Promotion? appliedPromotion;
+        var isSubmitting = false;
+        var isCheckingPromo = false;
+
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            final originalTotal = cart.totalPrice;
+            final discountPercent = appliedPromotion?.discountPercent ?? 0;
+            final discountAmount = originalTotal * discountPercent / 100;
+            final payableTotal = originalTotal - discountAmount;
+
+            List<CartItem> discountedItems() {
+              if (discountPercent <= 0) return cart.items.toList();
+              final ratio = (100 - discountPercent) / 100;
+              return cart.items
+                  .map(
+                    (item) => CartItem(
+                      product: item.product.copyWith(price: item.product.price * ratio),
+                      quantity: item.quantity,
+                    ),
+                  )
+                  .toList();
+            }
+
+            return AlertDialog(
+              title: Text(
+                'Xác nhận đặt hàng',
+                style: GoogleFonts.workSans(fontWeight: FontWeight.w700),
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _SummaryRow(label: 'Tạm tính', value: formatMoney(originalTotal)),
+                    if (appliedPromotion != null)
+                      _SummaryRow(
+                        label: 'Giảm ${appliedPromotion!.discountPercent.toStringAsFixed(0)}%',
+                        value: '-${formatMoney(discountAmount)}',
+                      ),
+                    const Divider(height: 20),
+                    _SummaryRow(
+                      label: 'Thanh toán',
+                      value: formatMoney(payableTotal),
+                      isTotal: true,
+                      totalColor: Theme.of(context).colorScheme.secondary,
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: promoCtrl,
+                            enabled: !isSubmitting,
+                            decoration: const InputDecoration(
+                              labelText: 'Mã khuyến mãi',
+                              prefixIcon: Icon(Icons.local_offer_outlined),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        OutlinedButton(
+                          onPressed: isSubmitting || isCheckingPromo
+                              ? null
+                              : () async {
+                                  final code = promoCtrl.text.trim();
+                                  if (code.isEmpty) return;
+                                  setDialogState(() => isCheckingPromo = true);
+                                  final promo = await promotionRepository.findActiveByCode(code);
+                                  if (!dialogContext.mounted) return;
+                                  setDialogState(() {
+                                    appliedPromotion = promo;
+                                    isCheckingPromo = false;
+                                  });
+                                  ScaffoldMessenger.of(dialogContext).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        promo == null
+                                            ? 'Mã khuyến mãi không hợp lệ hoặc đã tắt.'
+                                            : 'Đã áp dụng mã ${promo.code}.',
+                                      ),
+                                    ),
+                                  );
+                                },
+                          child: Text(isCheckingPromo ? '...' : 'Áp dụng'),
+                        ),
+                      ],
+                    ),
+                    if (appliedPromotion != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(
+                          '${appliedPromotion!.title} • ${appliedPromotion!.code}',
+                          style: GoogleFonts.inter(fontWeight: FontWeight.w700, color: Colors.green),
+                        ),
+                      ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: addrCtrl,
+                      enabled: !isSubmitting,
+                      decoration: const InputDecoration(
+                        labelText: 'Địa chỉ giao hàng',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.location_on_outlined),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: isSubmitting
+                            ? null
+                            : () async {
+                                final picked = await Navigator.push<PickedLocation>(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => LocationPickerPage(initialAddress: addrCtrl.text),
+                                  ),
+                                );
+                                if (picked == null) return;
+                                addrCtrl.text = picked.address;
+                                setDialogState(() {});
+                              },
+                        icon: const Icon(Icons.map_outlined),
+                        label: const Text('Tìm và chọn trên bản đồ'),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(ctx),
-                child: const Text('Huỷ')),
-            FilledButton(
-              onPressed: () {
-                orderService.placeOrder(
-                  customerName: session.username,
-                  address: addrCtrl.text.isEmpty
-                      ? 'Địa chỉ mặc định'
-                      : addrCtrl.text,
-                  items: cart.items.toList(),
-                );
-                cart.clear();
-                Navigator.pop(ctx);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text('🎉 Đặt hàng thành công!'),
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                );
-              },
-              child: const Text('Đặt hàng'),
-            ),
-          ],
+              actions: [
+                TextButton(
+                  onPressed: isSubmitting ? null : () => Navigator.pop(ctx),
+                  child: const Text('Huỷ'),
+                ),
+                FilledButton(
+                  onPressed: isSubmitting
+                      ? null
+                      : () async {
+                          final items = discountedItems();
+                          final address = addrCtrl.text.trim().isEmpty
+                              ? 'Địa chỉ mặc định'
+                              : addrCtrl.text.trim();
+
+                          setDialogState(() => isSubmitting = true);
+
+                          try {
+                            await orderRepository.placeOrder(
+                              customerName: session.username,
+                              address: address,
+                              items: items,
+                              promotionCode: appliedPromotion?.code,
+                              discountPercent: discountPercent.toDouble(),
+                              discountAmount: discountAmount,
+                            );
+
+                            orderService.placeOrder(
+                              customerName: session.username,
+                              address: address,
+                              items: items,
+                              promotionCode: appliedPromotion?.code,
+                              discountPercent: discountPercent.toDouble(),
+                              discountAmount: discountAmount,
+                            );
+
+                            cart.clear();
+
+                            if (!context.mounted) return;
+                            Navigator.pop(ctx);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  appliedPromotion == null
+                                      ? '🎉 Đặt hàng thành công!'
+                                      : '🎉 Đặt hàng thành công! Đã áp dụng mã ${appliedPromotion!.code}.',
+                                ),
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              ),
+                            );
+                          } catch (error) {
+                            if (!dialogContext.mounted) return;
+                            setDialogState(() => isSubmitting = false);
+                            ScaffoldMessenger.of(dialogContext).showSnackBar(
+                              SnackBar(content: Text('Không thể đặt hàng: $error')),
+                            );
+                          }
+                        },
+                  child: isSubmitting
+                      ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                      : const Text('Đặt hàng'),
+                ),
+              ],
+            );
+          },
         );
       },
     );
   }
 }
-
 class _CartItemTile extends StatelessWidget {
   const _CartItemTile({
     required this.item,
@@ -474,3 +640,10 @@ class _SummaryRow extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
