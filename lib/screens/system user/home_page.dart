@@ -1,7 +1,9 @@
+﻿import 'package:app_bachhoa/models/promotion.dart';
 import 'package:app_bachhoa/models/user_session.dart';
 import 'package:app_bachhoa/screens/system user/product_detail_page.dart';
 import 'package:app_bachhoa/screens/system user/product_list_page.dart';
 import 'package:app_bachhoa/services/product_service.dart';
+import 'package:app_bachhoa/services/promotion_repository.dart';
 import 'package:app_bachhoa/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,8 +25,22 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _searchCtrl = TextEditingController();
   final _productService = ProductService();
+  final _promotionRepository = PromotionRepository();
+  var _promotions = <Promotion>[];
   var _searchResults = <dynamic>[];
   bool _isSearching = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPromotions();
+  }
+
+  Future<void> _loadPromotions() async {
+    final promotions = await _promotionRepository.getActive();
+    if (!mounted) return;
+    setState(() => _promotions = promotions);
+  }
 
   @override
   void dispose() {
@@ -55,14 +71,16 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            // ── App Bar / Header ──
+            // â”€â”€ App Bar / Header â”€â”€
             SliverToBoxAdapter(
               child: _buildHeader(context),
             ),
-            // ── Search bar ──
+            // â”€â”€ Search bar â”€â”€
             SliverToBoxAdapter(
               child: _buildSearchBar(context),
             ),
+            if (_promotions.isNotEmpty)
+              SliverToBoxAdapter(child: _buildPromotionSection(context)),
             if (_isSearching) ...[
               SliverToBoxAdapter(
                 child: Padding(
@@ -96,13 +114,13 @@ class _HomePageState extends State<HomePage> {
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
             ] else ...[
-              // ── Hero Banner ──────────────────────────────────
+              // â”€â”€ Hero Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               SliverToBoxAdapter(child: _buildHeroBanner(context)),
-              // ── Feature Banners (Eco + Express) ─────────────
+              // â”€â”€ Feature Banners (Eco + Express) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               SliverToBoxAdapter(child: _buildFeatureBanners(context)),
-              // ── Quick Categories ─────────────────────────────
+              // â”€â”€ Quick Categories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               SliverToBoxAdapter(child: _buildQuickCategories(context)),
-              // ── New Arrivals Section header ───────────────────
+              // â”€â”€ New Arrivals Section header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
@@ -162,6 +180,82 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _buildPromotionSection(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Khuyến mãi hôm nay',
+            style: GoogleFonts.workSans(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: theme.colorScheme.onSurface,
+            ),
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 112,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: _promotions.length,
+              separatorBuilder: (_, _) => const SizedBox(width: 12),
+              itemBuilder: (context, index) {
+                final promo = _promotions[index];
+                return Container(
+                  width: 280,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFFF8A00), Color(0xFFE91E63)],
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.local_offer, color: Colors.white),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              promo.title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.workSans(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Mã: ${promo.code} • Giảm ${promo.discountPercent.toStringAsFixed(0)}%',
+                        style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        promo.description.isEmpty ? 'Áp dụng cho đơn hàng phù hợp.' : promo.description,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.inter(color: Colors.white.withValues(alpha: 0.9), fontSize: 12),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
   Widget _buildHeader(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
@@ -210,7 +304,7 @@ class _HomePageState extends State<HomePage> {
             child: IconButton(
               onPressed: widget.onLogout,
               icon: const Icon(Icons.logout, color: Colors.white),
-              tooltip: 'Đăng xuất',
+                tooltip: 'Đăng xuất',
             ),
           ),
         ],
@@ -260,7 +354,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ── Hero Banner (Stitch: "Fresh Every Day") ────────────────────────────
+  // â”€â”€ Hero Banner (Stitch: "Fresh Every Day") â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildHeroBanner(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -281,7 +375,7 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Stack(
           children: [
-            // ── Decorative background circles ──
+            // â”€â”€ Decorative background circles â”€â”€
             Positioned(
               right: -30,
               top: -30,
@@ -306,7 +400,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            // ── Decorative leaf icon ──
+            // â”€â”€ Decorative leaf icon â”€â”€
             Positioned(
               right: 20,
               top: 0,
@@ -317,7 +411,7 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white.withValues(alpha: 0.1),
               ),
             ),
-            // ── Content ──
+            // â”€â”€ Content â”€â”€
             Padding(
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -336,7 +430,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     child: Text(
-                      '🌾  Farm Fresh Organic Harvest',
+                      '🌾 Tươi sạch mỗi ngày',
                       style: GoogleFonts.inter(
                         color: Colors.white,
                         fontSize: 11,
@@ -348,7 +442,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 12),
                   // Main headline
                   Text(
-                    'Fresh Every Day',
+                    'Thực phẩm tươi ngon',
                     style: GoogleFonts.workSans(
                       color: Colors.white,
                       fontSize: 26,
@@ -360,7 +454,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 8),
                   // Sub tagline
                   Text(
-                    'Sourcing organic farm-to-table\ngroceries for your family.',
+                    'Rau củ, thịt cá, sữa và hàng tiêu dùng\nđược chọn lọc cho gia đình bạn.',
                     style: GoogleFonts.inter(
                       color: Colors.white.withValues(alpha: 0.8),
                       fontSize: 12,
@@ -392,7 +486,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       icon: const Icon(Icons.storefront_outlined, size: 16),
                       label: Text(
-                        'Our Mission',
+                        'Mua ngay',
                         style: GoogleFonts.workSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
@@ -409,13 +503,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ── Feature Banners (Stitch: Eco Packaging + Express Delivery) ───────────
+  // â”€â”€ Feature Banners (Stitch: Eco Packaging + Express Delivery) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildFeatureBanners(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
       child: Row(
         children: [
-          // ── Eco Packaging ──
+          // â”€â”€ Eco Packaging â”€â”€
           Expanded(
             child: _FeatureBannerCard(
               icon: Icons.recycling,
@@ -431,7 +525,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const SizedBox(width: 12),
-          // ── Express Delivery ──
+          // â”€â”€ Express Delivery â”€â”€
           Expanded(
             child: _FeatureBannerCard(
               icon: Icons.electric_bolt,
@@ -461,7 +555,7 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
           child: Text(
-            'Danh mục',
+            'Danh má»¥c',
             style: GoogleFonts.workSans(
               fontSize: 18,
               fontWeight: FontWeight.w700,
@@ -543,7 +637,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// ── Feature Banner Card ──────────────────────────────────────────────────────
+// â”€â”€ Feature Banner Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class _FeatureBannerCard extends StatelessWidget {
   const _FeatureBannerCard({
     required this.icon,
@@ -621,3 +715,4 @@ class _FeatureBannerCard extends StatelessWidget {
     );
   }
 }
+

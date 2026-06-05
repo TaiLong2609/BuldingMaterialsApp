@@ -3,25 +3,22 @@
 import 'package:app_bachhoa/models/user_role.dart';
 import 'package:app_bachhoa/models/user_session.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_bachhoa/services/user_repository.dart';
 
 class AuthService {
   AuthService._({
-    required SharedPreferences prefs,
+    required UserRepository userRepository,
     required List<_SeedAccount> seed,
-  }) : _prefs = prefs,
+  }) : _userRepository = userRepository,
        _seed = seed;
 
-  static const _customerKey = 'customer_accounts_v1';
-
-  final SharedPreferences _prefs;
+  final UserRepository _userRepository;
   final List<_SeedAccount> _seed;
 
   static Future<AuthService> create() async {
-    final prefs = await SharedPreferences.getInstance();
     final seedText = await rootBundle.loadString('assets/seed_accounts.txt');
     final seed = _parseSeed(seedText);
-    return AuthService._(prefs: prefs, seed: seed);
+    return AuthService._(userRepository: UserRepository(), seed: seed);
   }
 
   Future<UserSession?> login({
@@ -38,10 +35,9 @@ class AuthService {
       }
     }
 
-    final customers = await _loadCustomers();
-    final stored = customers[normalizedUser];
-    if (stored != null && stored == normalizedPass) {
-      return UserSession(username: normalizedUser, role: UserRole.customer);
+    final stored = await _userRepository.findByUsername(normalizedUser);
+    if (stored != null && stored.password == normalizedPass) {
+      return UserSession(username: normalizedUser, role: stored.role);
     }
 
     return null;
@@ -59,26 +55,16 @@ class AuthService {
       return 'Tài khoản này đã tồn tại.';
     }
 
-    final customers = await _loadCustomers();
-    if (customers.containsKey(normalized)) {
+    if (await _userRepository.exists(normalized)) {
       return 'Tài khoản này đã tồn tại.';
     }
 
-    customers[normalized] = password;
-    await _prefs.setString(_customerKey, jsonEncode(customers));
-    return null;
-  }
-
-  Future<Map<String, String>> _loadCustomers() async {
-    final raw = _prefs.getString(_customerKey);
-    if (raw == null || raw.isEmpty) return <String, String>{};
-
-    final decoded = jsonDecode(raw);
-    if (decoded is! Map) return <String, String>{};
-
-    return decoded.map(
-      (key, value) => MapEntry(key.toString(), value.toString()),
+    await _userRepository.insertUser(
+      username: normalized,
+      password: password,
+      role: UserRole.customer,
     );
+    return null;
   }
 
   static List<_SeedAccount> _parseSeed(String text) {
@@ -126,3 +112,4 @@ class _SeedAccount {
   final String password;
   final UserRole role;
 }
+
