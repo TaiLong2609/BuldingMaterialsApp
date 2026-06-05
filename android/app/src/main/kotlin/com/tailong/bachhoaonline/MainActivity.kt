@@ -1,5 +1,6 @@
-package com.example.app_quanlyxaydung
+﻿package com.tailong.bachhoaonline
 
 import io.flutter.embedding.android.FlutterActivity
 
 class MainActivity : FlutterActivity()
+
