@@ -13,19 +13,25 @@ class ProductRepository {
 
   Future<void> ensureSeedProducts() async {
     final db = await _databaseService.database;
-    final countResult = await db.rawQuery('SELECT COUNT(*) AS total FROM products');
-    final total = (countResult.first['total'] as int?) ?? 0;
-    if (total > 0) return;
-
     final seedProducts = ProductService().getAll();
     final batch = db.batch();
+
     for (final product in seedProducts) {
       batch.insert(
         'products',
         _toMap(product),
         conflictAlgorithm: ConflictAlgorithm.ignore,
       );
+      if (product.imageIcon != null && product.imageIcon!.isNotEmpty) {
+        batch.update(
+          'products',
+          {'image_icon': product.imageIcon},
+          where: "id = ? AND (image_icon IS NULL OR image_icon = '')",
+          whereArgs: [product.id],
+        );
+      }
     }
+
     await batch.commit(noResult: true);
   }
 
@@ -141,3 +147,5 @@ class ProductRepository {
     );
   }
 }
+
+
